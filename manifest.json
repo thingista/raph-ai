@@ -1,0 +1,17 @@
+{
+  "name": "Raph AI",
+  "short_name": "Raph AI",
+  "description": "100% Free General AI with Voice, 3D Games, Studio Music, Pictures & Stories",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0d0920",
+  "theme_color": "#ec4899",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

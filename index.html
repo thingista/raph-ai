@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Raph AI" />
+  <meta name="theme-color" content="#0d0920" />
+  <title>Raph AI</title>
+  <link rel="icon" type="image/svg+xml" href="icon.svg" />
+  <link rel="apple-touch-icon" href="icon.svg" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Clean Sidebar -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">
+          <svg class="raph-r-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="raphRainbowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ff3b6b" />
+                <stop offset="25%" stop-color="#ff9900" />
+                <stop offset="50%" stop-color="#fde047" />
+                <stop offset="75%" stop-color="#06b6d4" />
+                <stop offset="100%" stop-color="#a855f7" />
+              </linearGradient>
+            </defs>
+            <path
+              fill="url(#raphRainbowGrad)"
+              fill-rule="evenodd"
+              stroke="url(#raphRainbowGrad)"
+              stroke-width="2.5"
+              stroke-linejoin="round"
+              d="M 50 7 L 15 85 L 85 91 L 57 54 C 88 50, 90 14, 50 7 Z M 53 18 C 77 23, 76 45, 45 50 L 70 81 L 28 77 L 53 18 Z"
+            />
+          </svg>
+        </div>
+        <div>
+          <div class="brand-title">Raph AI</div>
+        </div>
+      </div>
+
+      <nav class="nav-tabs">
+        <button class="nav-btn active" data-tab="chat">
+          <span>💬</span>
+          <span>Chat</span>
+        </button>
+      </nav>
+
+      <div class="chat-history-section">
+        <div class="chat-history-header">🕒 Saved Chats</div>
+        <div id="chat-history-list" class="chat-history-list"></div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div id="usage-counter-pill" class="usage-counter-pill">⚡ 4 / 4 Uses Left</div>
+        <button type="button" id="open-paywall-btn" class="upgrade-pro-btn">💎 Get More — 4 CHF / week</button>
+        <button id="clear-chat-btn" class="secondary-btn full-width">+ New Chat</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-panel">
+      <!-- TAB 1: SIMPLE CHAT -->
+      <section class="tab-view active" id="tab-chat">
+        <header class="top-bar">
+          <div class="top-bar-brand">
+            <span class="mini-r">
+              <svg class="raph-r-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  fill="url(#raphRainbowGrad)"
+                  fill-rule="evenodd"
+                  stroke="url(#raphRainbowGrad)"
+                  stroke-width="2.5"
+                  stroke-linejoin="round"
+                  d="M 50 7 L 15 85 L 85 91 L 57 54 C 88 50, 90 14, 50 7 Z M 53 18 C 77 23, 76 45, 45 50 L 70 81 L 28 77 L 53 18 Z"
+                />
+              </svg>
+            </span>
+            <div>
+              <h1>Raph AI</h1>
+              <p class="subtitle">Simple, fast answers — and she talks to you like a real human!</p>
+            </div>
+          </div>
+          <div class="voice-controls">
+            <span id="speaking-badge" class="speaking-badge hidden">🗣️ Speaking...</span>
+            <button type="button" id="wake-status-btn" class="voice-btn active" title="Hands-free wake word status">🎙️ Say "Hey Raph AI"</button>
+            <button type="button" id="voice-toggle-btn" class="voice-btn active">🔊 Voice: ON</button>
+          </div>
+        </header>
+
+        <div class="chat-stream" id="chat-stream"></div>
+
+        <form class="chat-input-bar" id="chat-form">
+          <button type="button" class="mic-btn" id="mic-btn" title="Talk to Raph AI with your voice">🎤</button>
+          <textarea
+            id="chat-input"
+            rows="1"
+            placeholder="Message Raph AI or click 🎤 to talk..."
+          ></textarea>
+          <button type="submit" class="send-btn" id="send-btn">Send</button>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <!-- Full-Screen Live Game Website Portal (Sends you straight to the game!) -->
+  <div id="game-website-portal" class="game-website-portal hidden">
+    <div class="game-portal-topbar">
+      <button type="button" id="close-game-portal-btn" class="portal-back-btn">⬅️ Back to Raph AI</button>
+      <div class="portal-url-bar">
+        <span class="portal-lock">🟢 LIVE WEBSITE</span>
+        <span id="portal-game-title">Raph AI Game</span>
+      </div>
+      <a id="open-game-newtab-link" href="#" target="_blank" rel="noopener noreferrer" class="portal-newtab-btn">🌐 Open in New Tab ↗</a>
+    </div>
+    <iframe id="game-portal-iframe" class="game-portal-iframe" title="Raph AI Live Game Website"></iframe>
+  </div>
+
+  <!-- 4 CHF / Week Subscription Paywall Modal (After 4 Uses) -->
+  <div id="paywall-modal" class="paywall-modal hidden">
+    <div class="paywall-card">
+      <button type="button" id="close-paywall-btn" class="paywall-close-btn" title="Close">✕</button>
+      <div class="paywall-logo">
+        <svg class="raph-r-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <path
+            fill="url(#raphRainbowGrad)"
+            fill-rule="evenodd"
+            stroke="url(#raphRainbowGrad)"
+            stroke-width="2.5"
+            stroke-linejoin="round"
+            d="M 50 7 L 15 85 L 85 91 L 57 54 C 88 50, 90 14, 50 7 Z M 53 18 C 77 23, 76 45, 45 50 L 70 81 L 28 77 L 53 18 Z"
+          />
+        </svg>
+      </div>
+      <h2 id="paywall-title">You Used Your 4 Times!</h2>
+      <p id="paywall-subtitle" class="paywall-subtitle">
+        You can use Raph AI <b>4 times</b> for free. To get more times, you need to pay <b>4 CHF per week</b>!
+      </p>
+
+      <div class="paywall-price-box">
+        <span class="paywall-price-amount">4 CHF</span>
+        <span class="paywall-price-period">/ week</span>
+      </div>
+
+      <ul class="paywall-features">
+        <li>✨ Unlimited uses &amp; answers every week</li>
+        <li>🎮 Unlimited 3D Soccer, Bike, Ski &amp; Custom Games</li>
+        <li>🎨 Unlimited Pictures, Stories &amp; Animated Videos</li>
+        <li>🎵 Unlimited Studio Music Composer</li>
+      </ul>
+
+      <div class="paywall-methods">
+        <button type="button" class="pay-method-tab active" data-method="twint">🇨🇭 TWINT</button>
+        <button type="button" class="pay-method-tab" data-method="card">💳 Card</button>
+        <button type="button" class="pay-method-tab" data-method="apple">🍎 Apple Pay</button>
+      </div>
+
+      <form id="paywall-checkout-form" class="paywall-form">
+        <div id="pay-fields-card" class="pay-fields">
+          <input type="text" id="pay-name-input" class="pay-input" placeholder="Your Name" required />
+          <input type="text" id="pay-card-input" class="pay-input" placeholder="Card Number or TWINT Phone (+41 ...)" required />
+        </div>
+        <button type="submit" id="confirm-pay-btn" class="paywall-submit-btn">
+          🔓 Pay 4 CHF / week &amp; Unlock More Times
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script src="engine/spellcheck.js"></script>
+  <script src="engine/voice.js"></script>
+  <script src="engine/knowledge.js"></script>
+  <script src="engine/neural.js"></script>
+  <script src="engine/commonsense.js"></script>
+  <script src="engine/math.js"></script>
+  <script src="engine/painter.js"></script>
+  <script src="engine/music.js"></script>
+  <script src="engine/video.js"></script>
+  <script src="engine/gamebuilder.js"></script>
+  <script src="engine/websearch.js"></script>
+  <script src="engine/reasoning.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
